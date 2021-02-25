@@ -33,7 +33,7 @@ namespace DemoWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Medicine medicine)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 dbContext.Add(medicine);
                 dbContext.SaveChanges();
@@ -45,12 +45,12 @@ namespace DemoWebApp.Controllers
         //Get- Edit
         public IActionResult Edit(int? id)
         {
-            if(id==null)
+            if (id == null)
             {
                 return NotFound();
             }
             var medicine = dbContext.Medicine.Find(id);
-            if(medicine==null )
+            if (medicine == null)
             {
                 return NotFound();
             }
@@ -86,12 +86,14 @@ namespace DemoWebApp.Controllers
             return View(medicine);
         }
 
+
+        //Post-Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
             var medicine = dbContext.Medicine.Find(id);
-            if (medicine!=null)
+            if (medicine != null)
             {
                 dbContext.Remove(medicine);
                 dbContext.SaveChanges();
@@ -112,7 +114,87 @@ namespace DemoWebApp.Controllers
             {
                 return NotFound();
             }
+            medicine.MedicineDetails = dbContext.MedicineDetails.Where(t => t.MedicineRefId == id).ToList();
             return View(medicine);
         }
+
+        //Get- CreateDetails
+        public IActionResult CreateDetail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var medicine = dbContext.Medicine.Find(id);
+            if (medicine == null)
+            {
+                return NotFound();
+            }
+            MedicineDetails medicineDetails = new MedicineDetails { MedicineRefId=(int)id};
+            return View(medicineDetails);
+        }
+
+        //Post- CreateDetails
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateDetail(MedicineDetails medicineDetails)
+        {
+            if (ModelState.IsValid)
+            {
+                dbContext.Add(medicineDetails);
+                dbContext.SaveChanges();
+                return RedirectToAction("Details", new { id = medicineDetails.MedicineRefId });
+            }
+            return View(medicineDetails);
+        }
+
+        //Get- EditDetails
+        public IActionResult EditDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var medicineDetials = dbContext.MedicineDetails.Find(id);
+            if (medicineDetials == null)
+            {
+                return NotFound();
+            }
+            return View(medicineDetials);
+        }
+
+        //Post- EditDetails
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDetails(MedicineDetails medicineDetails)
+        {
+            if (ModelState.IsValid)
+            {
+                dbContext.Update(medicineDetails);
+                dbContext.SaveChanges();
+                return RedirectToAction("Details",new { id =medicineDetails.MedicineRefId });
+            }
+            return View(medicineDetails);
+        }
+
+        //Get- DeleteDetails
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var medicineDetails = dbContext.MedicineDetails.Find(id);
+            if (medicineDetails == null)
+            {
+                return NotFound();
+            }
+            dbContext.Remove(medicineDetails);
+            dbContext.SaveChanges();
+
+            return RedirectToAction("Details", new { id = medicineDetails.MedicineRefId });
+        }
+
     }
 }

@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DemoWebApp.Controllers
 {
-    [Authorize]
-    public class ViewController : Controller
+    public class SalesController : Controller
     {
         public IActionResult Index()
         {

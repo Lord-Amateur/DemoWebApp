@@ -24,5 +24,7 @@ namespace DemoWebApp.Models
 
         public string Place { get; set; }
 
+        public virtual IList<MedicineDetails> MedicineDetails { get; set; }
+
     }
 }

@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Pharmacy Management System</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Entry" asp-action="Index">Pharmacy Management System</a>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial.cshtml" />
@@ -20,21 +20,47 @@
         </nav>
     </header>
     <div class="container p-2">
-        <div class="row " >
+        <div class="row">
             <div class="col-sm-2 border-right">
-                <ul class="nav flex-column nav-pills nav-justified">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                <ul class="nav nav-tabs flex-column nav-pills nav-justified">
+                    @if (ViewContext.RouteData.Values["controller"].ToString() == "Entry")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Entry" asp-action="Index">Entry</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Report</a>
+                        </li>
+                    }
+                    else if (ViewContext.RouteData.Values["controller"].ToString() == "Sales")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Entry" asp-action="Index">Entry</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Report</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Entry" asp-action="Index">Entry</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="View" asp-action="Index">Sales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Report</a>
+                        </li>
+                    }
+
+
                 </ul>
             </div>
             <div class="col-10">
@@ -49,7 +75,6 @@
             &copy; 2021 - DemoWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

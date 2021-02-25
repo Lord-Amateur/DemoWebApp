@@ -6,36 +6,75 @@
 
 <h1>Details</h1>
 
+<p>
+    <a asp-action="CreateDetail" asp-route-id="@Model.Id">Add New Detail</a>
+</p>
+
 <div>
-    <h4>Medicine</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.GenericName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GenericName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Unit)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Unit)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Place)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Place)
         </dd>
     </dl>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Batch No</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Manufracture Date</th>
+            <th>Expiry Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medicineDetails in Model.MedicineDetails)
+        {
+        <tr>
+            <td>@medicineDetails.BatchNo</td>
+            <td>@medicineDetails.Quantity</td>
+            <td>@medicineDetails.Rate</td>
+            <td>@medicineDetails.ManufactureDate.ToString("yyyy/MM/dd")</td>
+            <td>@medicineDetails.ExpiryDate.ToString("yyyy/MM/dd")</td>
+            <td>
+                <div class="container">
+                    <div class="row">
+                        <a class="col-sm-auto btn btn-link" asp-action="EditDetails" asp-route-id="@medicineDetails.Id">Edit</a>
+                        <form class="col-sm-auto" asp-action="DeleteDetails" asp-route-id="@medicineDetails.Id">
+                            <input class="btn btn-link" type="submit" value="Delete" />
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
