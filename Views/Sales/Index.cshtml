@@ -1,87 +1,25 @@
-﻿@model DemoWebApp.Models.Medicine
+﻿@model List<DemoWebApp.Models.Sales>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sales";
 }
 
-<form asp-controller="Sales" asp-action="Index">
-    <div class="input-group mb-3">
-        <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
-        <div class="input-group-append">
-            <button type="submit">Search</button>
+<div class="input-group mb-3">
+    <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
+    <div class="input-group-append">
+        <button id="SearchBtn" class="btn btn-outline-dark">Search</button>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6" id="MedicineDetails">
+            <partial name="Details.cshtml" />
+        </div>
+        <div class="col-6">
+            <partial name="Bill.cshtml" />
         </div>
     </div>
-</form>
-
-@if (Model != null)
-{
-    <div>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.GenericName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.GenericName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Unit)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Unit)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Place)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Place)
-            </dd>
-        </dl>
-    </div>
-
-    if (Model.MedicineDetails.Count != 0)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Batch No</th>
-                    <th>Quantity</th>
-                    <th>Rate</th>
-                    <th>Manufracture Date</th>
-                    <th>Expiry Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var medicineDetails in Model.MedicineDetails)
-                {
-                    <tr>
-                        <td>@medicineDetails.BatchNo</td>
-                        <td>@medicineDetails.Quantity</td>
-                        <td>@medicineDetails.Rate</td>
-                        <td>@medicineDetails.ManufactureDate.ToString("yyyy/MM/dd")</td>
-                        <td>@medicineDetails.ExpiryDate.ToString("yyyy/MM/dd")</td>
-                        <td>
-                            <a class="col-sm-auto btn btn-link" asp-action="Enter" asp-route-id="@medicineDetails.Id">Enter</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-}
-else
-{
-    <p>
-        No Medicne Found
-    </p>
-}
+</div>
 
 @section Scripts {
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -92,5 +30,41 @@ else
                 source: 'api/SalesApi/Search'
             });
         });
-    </script>
+        $(function () {
+            $('#SearchBtn').click(function () {
+                var searchString = $("#searchBox").val();
+                $.ajax({
+                   url: '/Sales/Details',
+                  dataType: 'html',
+                    data: {searchString:searchString},
+                  success: function(data) {
+                     $('#MedicineDetails').html(data);
+                  }
+               });
+           });
+        });
+        function Enter(id) {
+            $.ajax({
+                   cache:false,
+                   url: '/Sales/BillColumn',
+                   dataType: 'html',
+                   data: {id:id},
+                  success: function(data) {
+                      $('#Bill').find('tbody').append(data);
+                  }
+            });
+        }
+        function SubmitFxn() {
+            $.ajax({
+                type:'post',
+                url: '/Sales/Submit',
+                dataType: 'html',
+                data: $('#Bill').data(),
+                success: function () {
+
+                }
+            });
+        }
+
+</script>
 }

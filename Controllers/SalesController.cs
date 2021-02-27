@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+//using System.Web.Mvc;
 using DemoWebApp.Data;
 using DemoWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +15,21 @@ namespace DemoWebApp.Controllers
     {
         private readonly ApplicationDbContext dbContext;
 
+        public List<Sales> Sales { get; set; }
         public SalesController(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
+            Sales = new List<Sales>();
         }
 
-        public async Task<IActionResult> Index(string searchString)
+        public IActionResult Index()
+        {
+
+            return View();
+        }
+
+        
+        public async Task<IActionResult> Details(string searchString)
         {
             var medicine = new Medicine();
             if (!String.IsNullOrEmpty(searchString))
@@ -29,11 +39,20 @@ namespace DemoWebApp.Controllers
                 {
                     medicine.MedicineDetails = await dbContext.MedicineDetails.Where(t => t.MedicineRefId == medicine.Id).ToListAsync();
                 }
-                return View(medicine);
-                                    
+                return PartialView(medicine);                  
             }
-
             return View(null);
+        }
+
+        public IActionResult BillColumn(int id)
+        {
+            //Sales.Add(new Sales { Quantity = id,PurchaseDate=DateTime.Today });
+            Sales sales= new Sales { Quantity = id, PurchaseDate = DateTime.Today };
+            return PartialView(sales);
+        }
+        public IActionResult Submit()
+        {
+            return View();
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿@model DemoWebApp.Models.Medicine
+
+
+@if (Model != null)
+{
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GenericName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GenericName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Unit)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Unit)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Place)
+        </dd>
+    </dl>
+
+    if (Model.MedicineDetails.Count != 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Batch No</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Enter</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var medicineDetails in Model.MedicineDetails)
+                {
+                    <tr>
+                        <td>@medicineDetails.BatchNo</td>
+                        <td>@medicineDetails.Quantity</td>
+                        <td>@medicineDetails.Rate</td>
+                        
+                        <td>
+                            <button class="btn btn-link" onclick="Enter(@medicineDetails.Id)">Enter</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <p>
+        No Medicne Found
+    </p>
+}
