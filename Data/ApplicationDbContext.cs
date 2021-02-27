@@ -16,5 +16,6 @@ namespace DemoWebApp.Data
 
         public DbSet<Medicine> Medicine { get; set; }
         public DbSet<MedicineDetails> MedicineDetails { get; set; }
+        public DbSet<Sales> Sales { get; set; }
     }
 }

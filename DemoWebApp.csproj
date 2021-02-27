@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20210224053846_Medicine-Model.cs" />
     <Compile Remove="Migrations\20210224053846_Medicine-Model.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227040153_Sales.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227040153_Sales.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227041821_Sales-Updated.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227041821_Sales-Updated.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227042846_Updated Sales.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227042846_Updated Sales.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227043232_Sales.cs" />
+    <Compile Remove="Migrations\ApplicationDb\20210227043232_Sales.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

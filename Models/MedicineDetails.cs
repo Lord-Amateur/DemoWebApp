@@ -40,6 +40,9 @@ namespace DemoWebApp.Models
         public virtual Medicine Medicine { get; set; }
         public int MedicineRefId { get; set; }
 
+        public virtual IList<Sales> Sales { get; set; }
+
+
 
     }
 }
