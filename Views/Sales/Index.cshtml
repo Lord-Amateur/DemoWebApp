@@ -24,6 +24,7 @@
 @section Scripts {
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script src="~/lib/jquery.tabletojson.js"></script>
     <script>
         $(document).ready(function () {
             $("#searchBox").autocomplete({
@@ -55,13 +56,17 @@
             });
         }
         function SubmitFxn() {
+            var jsonObject = $('#Bill').tableToJSON();
+            console.log(jsonObject);
+            
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: '/Sales/Submit',
-                dataType: 'html',
-                data: $('#Bill').data(),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(jsonObject),
                 success: function () {
-
+                    alert("success");
                 }
             });
         }

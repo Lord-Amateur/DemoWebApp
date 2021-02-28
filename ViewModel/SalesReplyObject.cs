@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace DemoWebApp.ViewModel
 {
-    public class SalesViewModel
+    public class SalesReplyObject
     {
-        public Medicine Medicine { get; set; }
-        public List<Sales> Sales { get; set; }
-        public int Total { get; set; }
+        public string Quantity { get; set; }
+        public string PurchaseDate { get; set; }
     }
 }

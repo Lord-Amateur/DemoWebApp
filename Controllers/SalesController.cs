@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using System.Web.Mvc;
 using DemoWebApp.Data;
 using DemoWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DemoWebApp.ViewModel;
 
 namespace DemoWebApp.Controllers
 {
@@ -15,11 +16,9 @@ namespace DemoWebApp.Controllers
     {
         private readonly ApplicationDbContext dbContext;
 
-        public List<Sales> Sales { get; set; }
         public SalesController(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            Sales = new List<Sales>();
         }
 
         public IActionResult Index()
@@ -50,7 +49,8 @@ namespace DemoWebApp.Controllers
             Sales sales= new Sales { Quantity = id, PurchaseDate = DateTime.Today };
             return PartialView(sales);
         }
-        public IActionResult Submit()
+        [HttpPost]
+        public IActionResult Submit([FromBody]List<SalesReplyObject> model)
         {
             return View();
         }
