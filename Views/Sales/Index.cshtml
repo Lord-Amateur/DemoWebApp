@@ -1,16 +1,22 @@
-﻿@model List<DemoWebApp.Models.Sales>
+﻿
 
-@{
-    ViewData["Title"] = "Sales";
-}
-
-<div class="input-group mb-3">
-    <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
-    <div class="input-group-append">
-        <button id="SearchBtn" class="btn btn-outline-dark">Search</button>
-    </div>
-</div>
 <div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
+                <div class="input-group-append">
+                    <button id="SearchBtn" class="btn btn-outline-dark">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <label>Buyer Name</label>
+                <input type="text" id="BuyerName"/>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-6" id="MedicineDetails">
             <partial name="Details.cshtml" />
@@ -44,12 +50,13 @@
                });
            });
         });
-        function Enter(id) {
+        function Enter(id,rate) {
+            var quantity=document.getElementById(id).value;
             $.ajax({
                    cache:false,
                    url: '/Sales/BillColumn',
                    dataType: 'html',
-                   data: {id:id},
+                   data: {id:id,quantity:quantity,rate:rate},
                   success: function(data) {
                       $('#Bill').find('tbody').append(data);
                   }
@@ -57,16 +64,20 @@
         }
         function SubmitFxn() {
             var jsonObject = $('#Bill').tableToJSON();
+            var BuyerName = $('#BuyerName').val();
+            for (var i in jsonObject) {
+                jsonObject[i].BuyerName=BuyerName;
+            }
             console.log(jsonObject);
-            
             $.ajax({
                 type: 'post',
                 url: '/Sales/Submit',
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(jsonObject),
-                success: function () {
-                    alert("success");
+                success: function (data) {
+                    alert(data.success);
+                    window.location.href = "/Sales/Index";
                 }
             });
         }

@@ -1,11 +1,17 @@
 ﻿@model DemoWebApp.Models.Sales
 @{
     <tr>
-        <td>
-            @Html.DisplayFor(model => model.Quantity)
+        <td class="text-hide">
+            @Model.MedicineDetailsRefId
         </td>
         <td>
-            @Html.DisplayFor(model => model.PurchaseDate)
+            @Model.Quantity
+        </td>
+        <td>
+            @Model.Net
+        </td>
+        <td>
+            @Model.PurchaseDate.ToShortDateString()
         </td>
     </tr>
 }

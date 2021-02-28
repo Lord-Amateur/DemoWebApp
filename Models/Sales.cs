@@ -16,6 +16,8 @@ namespace DemoWebApp.Models
         [Range(1, int.MaxValue, ErrorMessage = "The value of quantity must be greater than 0")]
         public int Quantity { get; set; }
 
+        public float Net { get; set; }
+
         public string  BuyerName { get; set; }
 
         [Required]

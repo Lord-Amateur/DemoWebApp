@@ -40,19 +40,36 @@ namespace DemoWebApp.Controllers
                 }
                 return PartialView(medicine);                  
             }
-            return View(null);
+            return PartialView(null);
         }
 
-        public IActionResult BillColumn(int id)
+        public IActionResult BillColumn(int id,int quantity,float rate)
         {
-            //Sales.Add(new Sales { Quantity = id,PurchaseDate=DateTime.Today });
-            Sales sales= new Sales { Quantity = id, PurchaseDate = DateTime.Today };
+            Sales sales= new Sales {Quantity=quantity, Net=quantity*rate, MedicineDetailsRefId = id, PurchaseDate = DateTime.Today };
             return PartialView(sales);
         }
         [HttpPost]
         public IActionResult Submit([FromBody]List<SalesReplyObject> model)
         {
-            return View();
+            var Sales=new  List<Sales>();
+            foreach(SalesReplyObject item in  model)
+            {
+                Sales sales = new Sales
+                {
+                    Id=0,
+                    MedicineDetailsRefId = int.Parse(item.MedicineRefId),
+                    Quantity = int.Parse(item.Quantity),
+                    Net = float.Parse(item.Net),
+                    BuyerName=item.BuyerName,
+                    PurchaseDate=DateTime.Parse(item.PurchaseDate)
+                };
+                Sales.Add(sales);
+                var detail=dbContext.MedicineDetails.Find(int.Parse(item.MedicineRefId));
+                detail.Quantity -= int.Parse(item.Quantity);
+            }
+            dbContext.Sales.AddRange(Sales);
+            dbContext.SaveChanges();
+            return Json(new { success = "Succesfully Submitted" });
         }
     }
 }
