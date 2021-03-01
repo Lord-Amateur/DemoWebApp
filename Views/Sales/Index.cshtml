@@ -1,5 +1,7 @@
 ﻿
-
+@{
+    ViewData["Title"] = "Sales";
+}
 <div class="container">
     <div class="row">
         <div class="col-6">
@@ -13,7 +15,7 @@
         <div class="col-6">
             <div>
                 <label>Buyer Name</label>
-                <input type="text" id="BuyerName"/>
+                <input type="text" id="BuyerName" />
             </div>
         </div>
     </div>
@@ -24,6 +26,9 @@
         <div class="col-6">
             <partial name="Bill.cshtml" />
         </div>
+    </div>
+    <div class="row">
+        <label class="text-danger" id="Warning"></label>
     </div>
 </div>
 
@@ -41,32 +46,41 @@
             $('#SearchBtn').click(function () {
                 var searchString = $("#searchBox").val();
                 $.ajax({
-                   url: '/Sales/Details',
-                  dataType: 'html',
-                    data: {searchString:searchString},
-                  success: function(data) {
-                     $('#MedicineDetails').html(data);
-                  }
-               });
-           });
-        });
-        function Enter(id,rate) {
-            var quantity=document.getElementById(id).value;
-            $.ajax({
-                   cache:false,
-                   url: '/Sales/BillColumn',
-                   dataType: 'html',
-                   data: {id:id,quantity:quantity,rate:rate},
-                  success: function(data) {
-                      $('#Bill').find('tbody').append(data);
-                  }
+                    url: '/Sales/Details',
+                    dataType: 'html',
+                    data: { searchString: searchString },
+                    success: function (data) {
+                        $('#MedicineDetails').html(data);
+                    }
+                });
             });
+        });
+        function Enter(id, rate, remaining) {
+            var quantity = document.getElementById(id).value;
+            if (quantity > remaining || quantity < 0 || !Number.isInteger(+quantity)) {
+                $('#Warning').text("Please input a valid quantity");
+            }
+            else {
+                $('#Warning').text("");
+                $.ajax({
+                    cache: false,
+                    url: '/Sales/BillColumn',
+                    dataType: 'html',
+                    data: { id: id, quantity: quantity, rate: rate },
+                    success: function (data) {
+                        $('#Bill').find('tbody').append(data);
+                        var total = $('#Total').val();
+                        total = +total + quantity * rate;
+                        $('#Total').val(total);
+                    }
+                });
+            }
         }
         function SubmitFxn() {
             var jsonObject = $('#Bill').tableToJSON();
             var BuyerName = $('#BuyerName').val();
             for (var i in jsonObject) {
-                jsonObject[i].BuyerName=BuyerName;
+                jsonObject[i].BuyerName = BuyerName;
             }
             console.log(jsonObject);
             $.ajax({
@@ -77,10 +91,10 @@
                 data: JSON.stringify(jsonObject),
                 success: function (data) {
                     alert(data.success);
-                    window.location.href = "/Sales/Index";
+                    window.location.href = "/Sales";
                 }
             });
         }
 
-</script>
+    </script>
 }

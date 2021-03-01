@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DemoWebApp.Data;
 using DemoWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoWebApp.Controllers
 {
+    [Authorize]
     public class EntryController : Controller
     {
         private readonly ApplicationDbContext dbContext;

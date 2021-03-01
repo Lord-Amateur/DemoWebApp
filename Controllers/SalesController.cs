@@ -12,6 +12,7 @@ using DemoWebApp.ViewModel;
 
 namespace DemoWebApp.Controllers
 {
+    [Authorize]
     public class SalesController : Controller
     {
         private readonly ApplicationDbContext dbContext;

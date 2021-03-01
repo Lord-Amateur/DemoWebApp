@@ -1,18 +1,28 @@
 ﻿@model List<DemoWebApp.ViewModel.ReportViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Report";
 }
 
-<form asp-action="Index" class="input-group mb-3">
-    <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
-    <div class="input-group-append">
-        <button type="submit" class="btn btn-outline-dark">Search</button>
+<form asp-action="Index">
+    <div class="container">
+        <div class="row input-group">
+            <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-dark">Search</button>
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="form-group">
+                <label>From</label>
+                <input type="date" name="fromDate" placeholder="@DateTime.Today" />
+            </div>
+            <div class="form-group">
+                <label>To</label>
+                <input type="date" name="toDate" placeholder="@DateTime.Today" />
+            </div>
+        </div>
     </div>
-    <label>From</label>
-    <input type="date" name="fromDate" placeholder="@DateTime.Today" />
-    <label>To</label>
-    <input type="date" name="toDate" placeholder="@DateTime.Today" />
 </form>
 @if (Model != null)
 {

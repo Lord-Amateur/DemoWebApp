@@ -74,7 +74,7 @@ namespace DemoWebApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
-            returnUrl = Url.Content("~/View/Index");
+            returnUrl = Url.Content("~/Entry/Index");
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)

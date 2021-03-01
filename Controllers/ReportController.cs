@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using DemoWebApp.Data;
 using DemoWebApp.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoWebApp.Models
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private readonly ApplicationDbContext dbContext;
