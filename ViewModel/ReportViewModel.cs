@@ -8,7 +8,8 @@ namespace DemoWebApp.ViewModel
     public class ReportViewModel
     {
         public string BatchNo { get; set; }
-        public string Quantity { get; set; }
-        public string Rate { get; set; }
+        public int Quantity { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public string BuyerName { get; set; }
     }
 }

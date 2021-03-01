@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DemoWebApp.Models.Sales>
+﻿@model List<DemoWebApp.ViewModel.ReportViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,57 +7,81 @@
 <form asp-action="Index" class="input-group mb-3">
     <input type="text" id="searchBox" name="searchString" placeholder="Enter your keyword" />
     <div class="input-group-append">
-        <button id="SearchBtn" class="btn btn-outline-dark">Search</button>
+        <button type="submit" class="btn btn-outline-dark">Search</button>
     </div>
+    <label>From</label>
+    <input type="date" name="fromDate" placeholder="@DateTime.Today" />
+    <label>To</label>
+    <input type="date" name="toDate" placeholder="@DateTime.Today" />
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BuyerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicineDetails)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @*@foreach (var item in Model) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Quantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BuyerName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PurchaseDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MedicineDetails.BatchNo)
-                        </td>
-                    </tr>
-            }*@
-    </tbody>
-</table>
-@section Scripts {
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery/jquery-ui.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#searchBox").autocomplete({
-                source: 'api/SalesApi/Search'
-            });
-        });
-    </script>
+@if (Model != null)
+{
+    @if (Model.Count != 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Batch No
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Purchase Date
+                    </th>
+                    <th>
+                        Buyer Name
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @(item.BatchNo)
+                    </td>
+                    <td>
+                        @(item.Quantity)
+                    </td>
+                    <td>
+                        @(item.PurchaseDate.ToShortDateString())
+                    </td>
+                    <td>
+                        @(item.BuyerName)
+                    </td>
+                </tr>
+                }
     
+               
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>
+            No Sales Found For this medicine
+        </p>
+    }
 }
+else
+{
+    <p>
+        search for medicine to show its report
+    </p>
+}
+    @section Scripts {
+
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/jquery-ui.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#searchBox").autocomplete({
+                    source: 'api/SalesApi/Search'
+                });
+            });
+        </script>
+
+    }

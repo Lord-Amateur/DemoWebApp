@@ -10,10 +10,7 @@ namespace DemoWebApp.Models
     public class MedicineDetails
     {
         [Key]
-        public int Id {
-            get; 
-            set; 
-        }
+        public int Id {get; set;}
 
         [Required]
         public string BatchNo { get; set; }
